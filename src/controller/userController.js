@@ -1,4 +1,3 @@
-import { error } from "console";
 import UserService from "../service/userService.js";
 
 class UserController{
@@ -21,7 +20,7 @@ class UserController{
             res.status(201).json(user)
         }
         catch (err){
-            console.error("Errorcreating user:",err)
+            console.error("Error creating user:",err)
             res.status(500).json({error:"Internal Server Error"})
         }
     }
@@ -35,7 +34,7 @@ class UserController{
             res.status(200).json(user)
         }
         catch (err){
-            console.error("Error updating user:",err)
+            console.error("Error updating info about user:",err)
             res.status(500).json({error:"Internal Server Error"})
         }
     }
@@ -50,6 +49,97 @@ class UserController{
         }
         catch (err){
             console.error("Error searching users by name:",err)
+            res.status(500).json({error:"Internal Server Error"})
+        }
+    }
+    async deleteUser(req,res){
+        try{
+            const { email }=req.body
+            if (!email){
+                return res.status(400).json({error: "Поле 'email' обязательно"})
+            }
+            const success=await this.userService.deleteUser(email)
+            if (!success){
+                res.status(404).json({failed:`Пользователь не был найден или не был удален`})
+            }
+            else{
+                res.status(200).json({successed:`Пользователь с именем '${success.name}' и почтой ${success.email} был успешно удален`})
+            }
+        }
+        catch (err){
+            console.error("Error deleting user:",err)
+            res.status(500).json({error:"Internal Server Error"})
+        }
+    }
+    async searchUsersByEmail(req,res){
+        try{
+            const { email }=req.body
+            if (!email){
+                return res.status(400).json({error: "Поле 'email' обязательно"})
+            }
+            const user=await this.userService.searchUsersByEmail(email)
+            if (!user){
+                res.status(404).json({failed:"Пользователя с таким email не найдено"})
+            }
+            else{
+                res.status(200).json(user)
+            }
+        }
+        catch (err){
+            console.error("Error searching user by email:",err)
+            res.status(500).json({error:"Internal Server Error"})
+        }
+    }
+    async getPosts(req,res){
+        try{
+            const posts=await this.userService.getPosts()
+            res.status(200).json(posts)
+        }
+        catch (err){
+            console.error("Error fetching posts:",err)
+            res.status(500).json({error:"Internal Server Error"})
+        }
+    }
+    async createPost(req,res){
+        try{
+            const { title }=req.body
+            const { content }=req.body
+            const { authorId }=req.body
+            const post=await this.userService.createPost(title,content,authorId)
+            res.status(201).json(post)
+        }
+        catch (err){
+            console.error("Error creating post:",err)
+            res.status(500).json({error:"Internal Server Error"})
+        }
+    }
+    async updatePost(req,res){
+        try{
+            const post=await this.userService.updatePost({
+                id:req.params.id,
+                title:req.body.title,
+                content:req.body.content,
+                published:req.body.published
+            })
+            if (!post){
+                res.status(400).json({failed:"'published' должен содержать значение true или false"})
+            }
+            else{
+                res.status(200).json(post)
+            }
+        }
+        catch (err){
+            console.error("Error updating post:",err)
+            res.status(500).json({error:"Internal Server Error"})
+        }
+    }
+    async deletePost(req,res){
+        try{
+            const post=await this.userService.deletePost(req.body.id)
+            res.status(200).json({successed:`Пост '${post.title}'(${post.id}) был успешно удален`})
+        }
+        catch (err){
+            console.error("Error deleting post:",err)
             res.status(500).json({error:"Internal Server Error"})
         }
     }

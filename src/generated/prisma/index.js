@@ -140,7 +140,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\student110\\Desktop\\web-development-main\\prisma\\src\\generated\\prisma",
+      "value": "C:\\Users\\ksaha\\Desktop\\Проекты\\Веб-разработка\\prisma\\src\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -154,7 +154,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\student110\\Desktop\\web-development-main\\prisma\\prisma\\schema.prisma",
+    "sourceFilePath": "C:\\Users\\ksaha\\Desktop\\Проекты\\Веб-разработка\\prisma\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -176,8 +176,8 @@ const config = {
       }
     }
   },
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id    String  @id @default(cuid())\n  email String  @unique\n  name  String?\n\n  posts Post[]\n}\n\nmodel Post {\n  id        String  @id @default(cuid())\n  title     String\n  content   String?\n  published Boolean @default(false) @map(\"is_published\")\n\n  author   User   @relation(fields: [authorId], references: [id])\n  authorId String @map(\"author_id\")\n\n  createdAt DateTime @default(now()) @map(\"createdAt\")\n  updatedAt DateTime @updatedAt @map(\"updatedAt\")\n}\n",
-  "inlineSchemaHash": "860e778e81c80592376cb1d40e70ed11b24f4ffb34c655c2216d2bfd6bb2cac5",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id    String  @id @default(cuid())\n  email String  @unique\n  name  String?\n\n  posts Post[]\n}\n\nmodel Post {\n  id        String  @id @default(cuid())\n  title     String\n  content   String?\n  published Boolean @default(false) @map(\"is_published\")\n\n  author   User   @relation(fields: [authorId], references: [id])\n  authorId String @map(\"author_id\")\n\n  createdAt DateTime @default(now()) @map(\"createdAt\")\n  updatedAt DateTime @updatedAt @map(\"updatedAt\")\n}\n",
+  "inlineSchemaHash": "9f95091f34ee09082eaaabce7cc350eb25a6ac712354f544f8071ebf2d0be5a3",
   "copyEngine": true
 }
 
