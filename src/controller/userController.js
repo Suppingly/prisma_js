@@ -11,7 +11,7 @@ class UserController{
         }
         catch (err){
             console.error("Error fetching users:",err)
-            res.status(500).json({error:"Internal Server Error"})
+            res.status(500).json({error:"Internal Server Error fetching users"})
         }
     }
     async createUser(req,res){
@@ -21,7 +21,7 @@ class UserController{
         }
         catch (err){
             console.error("Error creating user:",err)
-            res.status(500).json({error:"Internal Server Error"})
+            res.status(500).json({error:"Internal Server Error creating user"})
         }
     }
     async updateUser(req,res){
@@ -35,7 +35,7 @@ class UserController{
         }
         catch (err){
             console.error("Error updating info about user:",err)
-            res.status(500).json({error:"Internal Server Error"})
+            res.status(500).json({error:"Internal Server Error updating info about user"})
         }
     }
     async searchUsersByName(req,res){
@@ -49,7 +49,7 @@ class UserController{
         }
         catch (err){
             console.error("Error searching users by name:",err)
-            res.status(500).json({error:"Internal Server Error"})
+            res.status(500).json({error:"Internal Server Error searching users by name"})
         }
     }
     async deleteUser(req,res){
@@ -68,7 +68,7 @@ class UserController{
         }
         catch (err){
             console.error("Error deleting user:",err)
-            res.status(500).json({error:"Internal Server Error"})
+            res.status(500).json({error:"Internal Server Error deleting user"})
         }
     }
     async searchUsersByEmail(req,res){
@@ -87,7 +87,7 @@ class UserController{
         }
         catch (err){
             console.error("Error searching user by email:",err)
-            res.status(500).json({error:"Internal Server Error"})
+            res.status(500).json({error:"Internal Server Error searching user by email"})
         }
     }
     async getPosts(req,res){
@@ -97,7 +97,7 @@ class UserController{
         }
         catch (err){
             console.error("Error fetching posts:",err)
-            res.status(500).json({error:"Internal Server Error"})
+            res.status(500).json({error:"Internal Server Error fetching posts"})
         }
     }
     async createPost(req,res){
@@ -106,11 +106,12 @@ class UserController{
             const { content }=req.body
             const { authorId }=req.body
             const post=await this.userService.createPost(title,content,authorId)
+            if (!post) res.status(400).json({error:"Error creating post"})
             res.status(201).json(post)
         }
         catch (err){
             console.error("Error creating post:",err)
-            res.status(500).json({error:"Internal Server Error"})
+            res.status(500).json({error:"Internal Server Error creating post"})
         }
     }
     async updatePost(req,res){
@@ -130,7 +131,7 @@ class UserController{
         }
         catch (err){
             console.error("Error updating post:",err)
-            res.status(500).json({error:"Internal Server Error"})
+            res.status(500).json({error:"Internal Server Error updating post"})
         }
     }
     async deletePost(req,res){
@@ -140,7 +141,7 @@ class UserController{
         }
         catch (err){
             console.error("Error deleting post:",err)
-            res.status(500).json({error:"Internal Server Error"})
+            res.status(500).json({error:"Internal Server Error deleting post"})
         }
     }
 }
